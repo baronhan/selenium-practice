@@ -35,7 +35,7 @@ public class BaseTest {
         //Tạo đối tượng Properties
         Properties prop = new Properties();
         //Dùng FileInputStream để mở file config
-        FileInputStream fis = new FileInputStream("C:/Users/NGUYPN07/Selenium/selenium-java/src/main/java/henrynguyen/resources/GolbalData.properties");
+        FileInputStream fis = new FileInputStream("D:/Selenium/selenium/selenium-practice/src/main/java/henrynguyen/resources/GolbalData.properties");
         //Dùng prop.load() để đọc dữ liệu từ file .properties
         prop.load(fis);
 
