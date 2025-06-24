@@ -7,12 +7,13 @@
     <groupId>org.example</groupId>
     <artifactId>selenium-java</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>15 (2)</maven.compiler.source>
-        <maven.compiler.target>15 (2)</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <testcase>testng.xml</testcase>
     </properties>
 
     <dependencies>
@@ -43,5 +44,68 @@
             <version>2.19.0</version>
         </dependency>
     </dependencies>
+
+    <!-- define từng profile tương ứng -> khi gọi chỉ cần gọi tên profile -> file xml chạy -->
+    <!-- cmd: mvn test -PRegression - trong đó P là profile còn Regression là tên test case-->
+    <profiles>
+        <profile>
+            <id>Regression</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.3</version>
+                            <configuration>
+                                <suiteXmlFiles>
+                                    <suiteXmlFile>testSuites/testng.xml</suiteXmlFile>
+                                </suiteXmlFiles>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>Purchase</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <version>3.5.3</version>
+                            <configuration>
+                                <suiteXmlFiles>
+                                    <suiteXmlFile>testSuites/Purchase.xml</suiteXmlFile>
+                                </suiteXmlFiles>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+    </profiles>
+
+    <!--trong trường hợp muốn gọn hơn và muốn truyền tên file xml thì có thể dùng cách này-->
+    <!--cmd: mvn test -Dtestcase=Purchase.xml-->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.3</version>
+                    <configuration>
+                        <suiteXmlFiles>
+                            <suiteXmlFile>testSuites/${testcase}</suiteXmlFile>
+                        </suiteXmlFiles>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

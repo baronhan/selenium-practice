@@ -39,6 +39,8 @@ public class BaseTest {
         //Dùng prop.load() để đọc dữ liệu từ file .properties
         prop.load(fis);
 
+        //Khi user truyền vào giá trị của browser thì cmd thì lúc này sys sẽ đọc xem có giá trị từ cmd không
+        //nếu có thì lấy giá trị đó, còn không thì lấy giá trị trong Global.properties
         String browserName = System.getProperty("browser") != null ? System.getProperty("browser") : prop.getProperty("browser");
 
         if(browserName.equalsIgnoreCase("chrome"))
