@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import henrynguyen.pageobjects.LandingPage;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
@@ -43,9 +45,18 @@ public class BaseTest {
         //nếu có thì lấy giá trị đó, còn không thì lấy giá trị trong Global.properties
         String browserName = System.getProperty("browser") != null ? System.getProperty("browser") : prop.getProperty("browser");
 
-        if(browserName.equalsIgnoreCase("chrome"))
+        if(browserName.contains("chrome"))
         {
-            driver = new ChromeDriver();
+            //headless trong trường hợp mình không muốn mở các tab lên -> mình chỉ muốn thực thi dưới BE
+            ChromeOptions option = new ChromeOptions();
+            if(browserName.contains("headless"))
+            {
+                option.addArguments("headless");
+            }
+
+            driver = new ChromeDriver(option);
+            //bởi vì thực thi dưới BE nên nó không thể mở fullsize nên cần set size cho web
+            driver.manage().window().setSize(new Dimension(1920, 1080)); //fullscreen
         } else if (browserName.equalsIgnoreCase("firefox")) {
             driver = new FirefoxDriver();
         } else if (browserName.equalsIgnoreCase("edge")) {
